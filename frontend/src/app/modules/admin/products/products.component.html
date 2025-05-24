@@ -1,0 +1,71 @@
+<div class="products-container">
+  <h2>PRODUCT MANAGEMENT</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+
+    <input formControlName="name" placeholder="Product name" required />
+    <input formControlName="description" placeholder="Description" />
+    <input type="number" formControlName="price" placeholder="Price" required />
+    <input type="number" formControlName="quantityInStock" placeholder="In stock" required />
+
+    <select formControlName="brandId">
+      <option [ngValue]="null">-- Choose a brand --</option>
+      <option *ngFor="let b of brands" [ngValue]="b.id">{{ b.name }}</option>
+    </select>
+
+    <select formControlName="categoryId">
+      <option [ngValue]="null">-- Choose a category --</option>
+      <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+    </select>
+
+    <input formControlName="picture" placeholder="URL picture" />
+
+    <label class="checkbox-label">
+      <input type="checkbox" formControlName="isDiscounted" />
+      Discounted product
+    </label>
+
+    <input
+      *ngIf="productForm.get('isDiscounted')?.value"
+      type="number"
+      formControlName="discountPercentage"
+      placeholder="Percentage discount (%)"
+      min="0" max="100"
+    />
+    <div *ngIf="productForm.get('picture')?.value">
+      <label>Preview of the image:</label>
+      <img [src]="productForm.get('picture')?.value" alt="Preview slike" style="max-width: 200px; border-radius: 8px; margin-top: 10px;" />
+    </div>
+    <div class="button-group">
+      <button type="submit">{{ editing ? 'Save changes' : 'Add product' }}</button>
+      <button type="button" (click)="cancelEdit()" *ngIf="editing" class="cancel-button">Cancel</button>
+    </div>
+  </form>
+
+  <table class="product-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Product name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>In stock</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.price | currency:'BAM' }}</td>
+      <td>{{ product.quantityInStock }}</td>
+      <td>
+        <button class="btn-warning" (click)="onEdit(product)">Edit</button>
+        <button class="btn-danger" (click)="onDelete(product.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+

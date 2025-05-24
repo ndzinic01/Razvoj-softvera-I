@@ -1,0 +1,70 @@
+.orders-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.no-orders {
+  text-align: center;
+  color: #888;
+  font-size: 18px;
+  padding: 20px;
+}
+
+.order-card {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.order-header {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.order-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-width: 180px;
+}
+
+.update-button {
+  background-color: #4caf50;
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.update-button:hover {
+  background-color: #45a049;
+}
+.shipped-order {
+  background-color: #d3d3d3; /* Svijetlo siva (možeš još potamniti ako želiš) */
+  opacity: 0.8;              /* Malo providno da izgleda "završeno" */
+  pointer-events: none;      /* Onemogući klikove unutra, dodatna zaštita */
+}

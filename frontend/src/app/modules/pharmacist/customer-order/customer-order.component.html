@@ -1,0 +1,37 @@
+<div class="orders-container">
+  <h2>Overview of customer orders</h2>
+
+  <div *ngIf="orders.length === 0" class="no-orders">
+    There are no orders to display.
+  </div>
+
+  <div *ngFor="let order of orders"
+       class="order-card"
+       [ngClass]="{'shipped-order': order.status === 'Shipped'}">
+    <div class="order-header">
+      <div><strong>Order ID:</strong> {{ order.id }}</div>
+      <div><strong>Order date:</strong> {{ order.orderDate | date: 'dd.MM.yyyy' }}</div>
+      <div><strong>Shipping address:</strong> {{ order.shippingAddress }}</div>
+      <div><strong>Total price:</strong> {{ order.totalPrice | currency:'KM':'symbol':'1.2-2' }}</div>
+      <div><strong>Current status:</strong> {{ order.status }}</div>
+    </div>
+
+    <div class="order-body" *ngIf="order.id !== undefined && order.status !== 'Shipped'">
+      <label [for]="'status-' + order.id">Change status:</label>
+
+      <select
+        [(ngModel)]="selectedStatus[order.id]"
+        class="status-select"
+        [id]="'status-' + order.id">
+        <option value="">-- Choose --</option>
+        <option *ngFor="let status of availableStatuses" [value]="status">{{ status }}</option>
+      </select>
+
+      <button
+        (click)="changeOrderStatus(order.id)"
+        class="update-button">
+        Update status
+      </button>
+    </div>
+  </div>
+</div>

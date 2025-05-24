@@ -1,0 +1,51 @@
+<div class="table-container">
+  <table class="user-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>IsAdmin</th>
+      <th>IsPharmacist</th>
+      <th>IsCustomer</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>
+        <i
+          class="{{ user.isAdmin ? 'fas fa-check-square' : 'far fa-square' }}"
+          (click)="toggleRole(user, 'isAdmin')"
+          style="cursor: pointer; font-size: 20px; color: #2e7d32;"
+          title="Admin"
+        ></i>
+      </td>
+      <td>
+        <i
+          class="{{ user.isPharmacist ? 'fas fa-check-square' : 'far fa-square' }}"
+          (click)="toggleRole(user, 'isPharmacist')"
+          style="cursor: pointer; font-size: 20px; color: #0277bd;"
+          title="Pharmacist"
+        ></i>
+      </td>
+      <td>
+        <i
+          class="{{ user.isCustomer ? 'fas fa-check-square' : 'far fa-square' }}"
+          (click)="toggleRole(user, 'isCustomer')"
+          style="cursor: pointer; font-size: 20px; color: #f9a825;"
+          title="Customer"
+        ></i>
+      </td>
+
+
+      <td><button class="delete-button" (click)="deleteUser(user.id)">Obriši</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

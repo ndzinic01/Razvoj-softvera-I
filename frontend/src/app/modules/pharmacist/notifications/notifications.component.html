@@ -1,0 +1,72 @@
+<div *ngIf="loading" class="loading">
+  <p>Loading notification...</p>
+</div>
+
+<div *ngIf="!loading && notifications.length === 0" class="no-notifications">
+  <p>You have no notifications.</p>
+</div>
+
+<div *ngIf="!loading && notifications.length > 0" class="notification-list">
+  <div *ngFor="let notification of notifications" class="notification-item" [class.read]="notification.read">
+    <h4>{{ notification.title }}</h4>
+    <p>{{ notification.message }}</p>
+    <small>{{ notification.time | date:'short' }}</small>
+
+    <div *ngIf="notification.orderId">
+      <p><strong>Order ID:</strong> {{ notification.orderId }}</p>
+      <button (click)="openOrderDetails(notification)" class="view-order-btn">View order</button>
+    </div>
+
+    <div class="actions">
+      <button *ngIf="!notification.read" (click)="markAsRead(notification)" class="mark-read-btn">Mark as read</button>
+      <button (click)="deleteNotification(notification.id)" class="delete-btn">Delete</button>
+    </div>
+
+  <!-- Novo dugme za odgovor -->
+  <button (click)="toggleReplyBox(notification.id)" class="reply-btn">
+    {{ showReplyBox[notification.id] ? 'Zatvori odgovor' : 'Odgovori' }}
+  </button>
+
+  <!-- Reply box - prikazuje se ako je showReplyBox[notification.id] true -->
+  <div *ngIf="showReplyBox[notification.id]" class="reply-box">
+    <textarea [(ngModel)]="replyMessages[notification.id]" placeholder="Unesite odgovor..."></textarea>
+    <button (click)="sendReply(notification)" class="send-reply-btn">Pošalji odgovor</button>
+  </div>
+</div>
+
+  <!-- Modal za prikaz detalja narudžbe -->
+  <div class="modal" [class.show]="showOrderModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeOrderModal()">&times;</span>
+      <h3>Order details</h3>
+      <p><strong>Payment method:</strong> {{ selectedOrder?.paymentMethod }}</p>
+      <p><strong>Shipping address:</strong> {{ selectedOrder?.shippingAddress }}</p>
+      <p><strong>Status:</strong> {{ selectedOrder?.status }}</p>
+      <p><strong>Total price:</strong> {{ selectedOrder?.totalPrice | currency:'KM' }}</p>
+
+      <h4>Products:</h4>
+      <table class="modal-table">
+        <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price per unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of selectedOrderDetails">
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.qty }}</td>
+          <td>{{ item.pricePerUnit | currency:'KM' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+

@@ -1,0 +1,152 @@
+<header class="header">
+
+
+  <div class="search-bar">
+    <div class="logo">
+      <a routerLink="/public/home" routerLinkActive="active">
+        <img src="images/logo.jpg"/>
+      </a>
+
+    </div>
+
+
+    <div class="search">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        placeholder="Search products"
+      />
+      <div *ngIf="searchResults.length > 0" class="search-results">
+        <ul>
+          <li *ngFor="let product of searchResults" (click)="goToProduct(product.id)">
+            {{ product.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+
+
+    <div class="header-icons">
+
+      <a routerLink="/public/wish-list" routerLinkActive="active" class="wishlist-link">
+        <img src="images/wishlist.png" class="icon"> Wish list
+        <span *ngIf="wishListCount > 0" class="badge">{{ wishListCount }}</span>
+      </a>
+
+
+     <!-- <a routerLink="/auth/login" routerLinkActive="active">
+        <img src="images/login.png"  class="icon"> Log in
+      </a>-->
+
+      <!-- Ako nije prijavljen -->
+      <ng-container *ngIf="!isCustomerLoggedIn()" >
+        <a routerLink="/auth/login" routerLinkActive="active">
+          <img src="images/login.png"  class="icon"> Log in
+        </a>
+      </ng-container>
+
+      <a routerLink="/public/cart" routerLinkActive="active">
+        <img src="images/cart.jpg"  class="icon"> Cart
+      </a>
+
+      <div *ngIf="isCustomerLoggedIn()" (click)="openRecipes()" class="recipes-button">
+        <img src="images/3802177.png" class="icon"> My Recipes
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+  <nav class="navigation">
+    <ul>
+      <li><a routerLink="/public/your-health" routerLinkActive="active">Your health</a></li>
+      <li><a routerLink="/public/beauty-and-care" routerLinkActive="active">Beauty and care</a></li>
+      <li><a routerLink="/public/childcare" routerLinkActive="active">Childcare</a></li>
+      <li><a routerLink="/public/skin-protection" routerLinkActive="active">Skin protection</a></li>
+      <li><a routerLink="/public/devices" routerLinkActive="active">Devices</a></li>
+    </ul>
+    <div *ngIf="isCustomerLoggedIn()" class="logout-container">
+      <button (click)="logout()" class="logout-button">
+        <i></i> Logout
+      </button>
+    </div>
+  </nav>
+</header>
+
+
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<div class="custom-modal-overlay" *ngIf="showLogoutModal">
+  <div class="custom-modal">
+    <h2>Log out</h2>
+    <p>Do you want to log out?</p>
+    <div class="modal-buttons">
+      <button (click)="confirmLogout()">Yes</button>
+      <button (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="custom-modal-overlay" *ngIf="showRecipeModal">
+  <div class="custom-modal">
+    <div class="modal-header">
+      <h2>My Recipes</h2>
+      <button class="close-btn" (click)="closeRecipeModal()">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="recipes.length === 0">Nema recepata za prikaz.</div>
+      <ul>
+        <li *ngFor="let recipe of recipes">
+          <strong>Ljekar:</strong> {{ recipe.doctorFirstname }} {{ recipe.doctorLastname }}<br>
+          <strong>Status:</strong> {{ recipe.status }}<br>
+          <strong>Izdato:</strong> {{ recipe.dateOfIssue | date:'dd.MM.yyyy HH:mm' }}
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+<footer class="app-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>About us</h4>
+      <p>We are your online destination for healthy living and products that help you feel better every day.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Email: info&#64;aquamar.com</p>
+      <p>Phone: +387 33 123 456</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Follow us</h4>
+      <div class="social-icons">
+        <a href="#"><img src="images/facebook.png" alt="Facebook"></a>
+        <a href="#"><img src="images/instagram.png" alt="Instagram"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Aquamar – All rights reserved.</p>
+  </div>
+</footer>
+
+
